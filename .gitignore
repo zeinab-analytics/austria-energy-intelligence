@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Raw and processed datasets
+data/raw/*
+!data/raw/.gitkeep
+
+data/processed/*
+!data/processed/.gitkeep
+
+# Generated reports
+reports/*
+!reports/.gitkeep
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code and OS
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
