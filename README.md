@@ -1,143 +1,104 @@
-
 # Austria Energy Intelligence
 
-An automated, AI-powered data analytics platform for Austria's electricity system and market.
+An automated, AI-powered platform for analyzing Austria's electricity system and market.
 
 ## Project Overview
 
-Austria Energy Intelligence is a hands-on Data Engineering, Business Intelligence, and AI project built using real electricity data from official European and Austrian sources.
+Austria Energy Intelligence is a hands-on Data Engineering, Business Intelligence, and AI project built on real electricity data from official European and Austrian sources.
 
-The project aims to collect, validate, process, analyze, and visualize electricity data and eventually generate automated analytical insights.
+The platform will eventually support:
 
-## Project Objectives
-
-- Analyze electricity consumption and generation in Austria.
-- Explore electricity market prices.
-- Analyze electricity imports and exports.
-- Identify historical trends and seasonal patterns.
-- Detect anomalies in electricity data.
-- Forecast electricity consumption and prices.
-- Build a professional interactive web platform with Streamlit and Plotly.
-- Generate AI-powered analytical reports.
-- Deliver automated notifications through Telegram.
+- Electricity consumption and generation analysis
+- Electricity market price analysis
+- Electricity imports and exports
+- Daily, weekly, monthly, and yearly comparisons
+- Historical trends and seasonal patterns
+- Anomaly detection
+- Consumption and price forecasting
+- Interactive Power BI dashboards
+- AI-generated insights and daily analytical reports
+- Automated notifications and alerts
 
 ## Technology Stack
 
 | Area | Technology |
 |---|---|
-| Version Control | Git & GitHub |
-| Development | Python, Pandas, VS Code |
+| Version control | Git + GitHub |
+| Development | Windows 11 + VS Code |
+| Server | Personal Debian 13 server, running 24/7 |
+| Deployment | Docker + Docker Compose |
+| Data processing | Python + Pandas |
 | Database | PostgreSQL |
 | Automation | n8n |
-| Web Interface | Streamlit |
-| Visualization | Plotly, Matplotlib |
-| AI Integration | Online LLM API |
-| Notifications | Telegram |
-| Deployment | Docker, Docker Compose, Debian 13 |
+| Dashboards | Power BI |
+| Forecasting | Python-based statistical or ML models |
+| AI integration | Online LLM API |
+| Notifications | Existing Telegram bot |
+
+Only the tools needed for the current phase are installed (currently Python, Pandas, and Matplotlib).
 
 ## Data Sources
 
-Current and planned official data sources include:
+Official, publicly accessible datasets, in priority order:
 
-- E-Control Austria (current electricity consumption source)
-- Austrian Power Grid (APG)
-- ENTSO-E Transparency Platform
-- SMARD
-- Eurostat
+1. E-Control Austria (current source: monthly domestic electricity consumption)
+2. Austrian Power Grid (APG)
+3. ENTSO-E Transparency Platform
+4. SMARD
+5. Eurostat
 
-Data sources will be evaluated for licensing, coverage, quality, granularity, and update frequency before integration.
+Each dataset is verified for source, licensing, coverage, granularity, units, timestamps, quality, and update frequency before use.
 
 ## Project Structure
 
 ```text
 austria-energy-intelligence/
-├── .streamlit/
-│   └── config.toml
-├── assets/
-│   └── dashboard.css
 ├── data/
 │   ├── raw/
 │   └── processed/
-├── app.py
 ├── src/
-│   ├── dashboard.py
-│   ├── dashboard_charts.py
-│   ├── dashboard_data.py
-│   └── ...
-├── tests/
 ├── reports/
 ├── README.md
 ├── requirements.txt
 └── .gitignore
 ```
 
-## Web Dashboard
+Raw and processed data files and generated reports are not stored in Git.
 
-The Streamlit application is the main interface for the platform. It currently
-implements real electricity consumption analytics and provides permanent
-navigation for future generation, market price, cross-border flow, forecasting,
-and AI insight modules. Future sections remain clearly marked as coming soon
-until validated source data is integrated.
+## Phase 1 — Consumption Analysis
 
-### Features
-
-- Filter-responsive KPI cards
-- Monthly consumption and rolling-average trends
-- Calendar-month seasonal analysis
-- Complete-year totals and year-over-year growth
-- Interactive Plotly hover, pan, and zoom controls
-- Filtered monthly data table and CSV export
-- Visible E-Control source, coverage, and calculation notes
-- Runtime checks for schema, date continuity, uniqueness, and positive values
-
-### Install and launch
-
-For a first-time Windows setup, create the Python 3.14 virtual environment from
-the repository root, install the declared versions, and launch the app:
+Place the E-Control export at `data/raw/el_dataset_mn.csv`, then run:
 
 ```powershell
 py -3.14 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe -m streamlit run app.py
-```
-
-The application opens in the default browser. If the processed dataset is not
-available, place the E-Control source export at
-`data/raw/el_dataset_mn.csv`, then create and validate the processed file with
-the existing ETL scripts. Raw and processed data files are intentionally not
-stored in Git.
-
-```powershell
 .\.venv\Scripts\python.exe src\extract_consumption.py
 .\.venv\Scripts\python.exe src\validate_consumption.py
+.\.venv\Scripts\python.exe src\analyze_consumption.py
+.\.venv\Scripts\python.exe src\visualize_consumption.py
 ```
 
-The dashboard reads `data/processed/consumption_monthly.csv`. Data access and
-all calculations are isolated from the Plotly figure builders. A future
-PostgreSQL adapter can replace the `_get_consumption_data` boundary while the
-analytical page and chart contracts remain unchanged.
-
-### Tests
-
-```powershell
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
-```
+| Script | Purpose |
+|---|---|
+| `src/extract_consumption.py` | Extracts and cleans the monthly consumption series into `data/processed/` |
+| `src/validate_consumption.py` | Checks missing values, duplicates, negatives, and month continuity |
+| `src/analyze_consumption.py` | Writes the analytical report to `reports/` |
+| `src/visualize_consumption.py` | Saves the first trend chart to `reports/` |
 
 ## Development Roadmap
 
-1. GitHub setup and initial electricity consumption analysis
-2. PostgreSQL integration and additional datasets
-3. Automated data pipelines with n8n
-4. Expand the Streamlit platform across additional electricity datasets
+1. GitHub setup and first consumption analysis
+2. PostgreSQL and additional datasets (generation, prices, imports/exports)
+3. n8n automation
+4. Power BI dashboards and KPIs
 5. Anomaly detection and forecasting
-6. AI-powered analytical insights
-7. Telegram integration
-8. Production deployment on Debian 13
+6. AI agent with evidence-based daily reports
+7. Telegram integration (extend the existing `telegram-ai-bot` with GitHub support)
+8. Production deployment on Debian 13 with Docker Compose
 
 ## Current Status
 
-Phase 1 consumption ETL and the permanent Streamlit web interface are implemented.
-Additional platform modules remain on the roadmap.
+Phase 1 is in progress: consumption ETL, validation, analysis, and first chart are implemented.
 
 ## License
 
